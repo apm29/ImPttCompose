@@ -1,6 +1,6 @@
 package com.imptt.v2.ui.pages
 
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 
@@ -10,11 +10,9 @@ import androidx.navigation.NavHostController
  *  description :
  */
 
-const val LOGIN = "登录"
+const val LOGIN = "login"
 
 @Composable
 fun LoginPage(navController: NavHostController) {
-    LazyColumn(){
-
-    }
+    Text(text = "登录")
 }
