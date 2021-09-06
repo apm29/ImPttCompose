@@ -8,3 +8,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "ImPttCompose"
 include ':app'
+include ':ptt-totalk'
+include 'talkie-zm'

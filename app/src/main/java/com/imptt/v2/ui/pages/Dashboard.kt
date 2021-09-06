@@ -4,10 +4,14 @@ import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.compose.NavHost
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavDestination.Companion.hierarchy
@@ -36,7 +40,7 @@ val items = listOf(
 )
 
 @Composable
-fun DashboardPage(navController: NavHostController) {
+fun DashboardPage() {
     val hostController = rememberNavController()
     Scaffold(
         bottomBar = {
@@ -45,7 +49,7 @@ fun DashboardPage(navController: NavHostController) {
                 val currentDestination = navBackStackEntry?.destination
                 items.forEach { screen ->
                     BottomNavigationItem(
-                        icon = { Icon(Icons.Filled.Favorite, contentDescription = null) },
+                        icon = { Icon(screen.icon, contentDescription = null) },
                         label = { Text(stringResource(screen.resourceId)) },
                         selected = currentDestination?.hierarchy?.any { it.route == screen.route } == true,
                         onClick = {
@@ -72,16 +76,36 @@ fun DashboardPage(navController: NavHostController) {
             hostController, startDestination = Dashboard.Channels.route,
             Modifier.padding(it)
         ) {
-            composable(Dashboard.Channels.route) {  }
-            composable(Dashboard.Contacts.route) {  }
-            composable(Dashboard.Settings.route) {  }
+            composable(Dashboard.Channels.route) {
+                Channels()
+            }
+            composable(Dashboard.Contacts.route) {
+                Contacts()
+            }
+            composable(Dashboard.Settings.route) {
+                Settings()
+            }
         }
 
     }
 }
 
-sealed class Dashboard(val route: String, @StringRes val resourceId: Int) {
-    object Channels : Dashboard(CHANNELS, R.string.channel_page_name)
-    object Contacts : Dashboard(CONTACTS, R.string.contact_page_name)
-    object Settings : Dashboard(SETTINGS, R.string.setting_page_name)
+sealed class Dashboard(val route: String, @StringRes val resourceId: Int, val icon: ImageVector) {
+    object Channels : Dashboard(CHANNELS, R.string.channel_page_name, Icons.Filled.Home)
+    object Contacts : Dashboard(CONTACTS, R.string.contact_page_name, Icons.Filled.AccountBox)
+    object Settings : Dashboard(SETTINGS, R.string.setting_page_name, Icons.Filled.Settings)
+}
+
+@Composable
+fun Channels(){
+    Text(text = "频道列表")
+}
+
+@Composable
+fun Contacts(){
+    Text(text = "联系人列表")
+}
+@Composable
+fun Settings(){
+    Text(text = "设置")
 }

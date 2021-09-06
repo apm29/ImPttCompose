@@ -19,7 +19,7 @@ fun Int.asNavigationUrl(): String {
 }
 
 @Composable
-fun UserInfoPage(navController: NavHostController) {
+fun UserInfoPage() {
     LazyColumn(){
 
     }

@@ -2,6 +2,9 @@ package com.imptt.v2.ui.pages
 
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import androidx.navigation.NavHostController
 
 /**
@@ -12,7 +15,8 @@ import androidx.navigation.NavHostController
 
 const val LOGIN = "login"
 
+@Preview
 @Composable
-fun LoginPage(navController: NavHostController) {
+fun LoginPage() {
     Text(text = "登录")
 }
