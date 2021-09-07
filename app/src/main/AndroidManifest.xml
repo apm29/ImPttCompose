@@ -1,14 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.imptt.v2">
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <uses-feature android:name="android.hardware.microphone" />
+
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> <!-- for bluetooth -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+
+    <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS"/>
+
+    <!-- 用户信息权限 -->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_USERINFO"/>
+    <!-- 同步时间权限 -->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_SERVER_SYNC_TIME"/>
+    <!-- 基础权限：授权认证等 -->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE"/>
+    <!--读取链路信息的权限-->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_LINKINFO"/>
+    <!--读取位置信息的权限-->
+    <uses-permission android:name="cybertech.permission.READ_PSTORE_LOCATIONINFO"/>
+    <!--提交操作日志的权限-->
+    <uses-permission android:name="cybertech.permission.WRITE_PSTORE_OPERATIONLOG"/>
+    <!--提交状态数据的权限-->
+    <uses-permission android:name="cybertech.permission.WRITE_PSTORE_APP_STATE_MONITOR"/>
 
     <application
         android:allowBackup="true"
+        android:name=".ImPttApp"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.ImPttCompose">
+        android:networkSecurityConfig="@xml/network_security_config"
+        android:requestLegacyExternalStorage="true"
+        android:theme="@style/Theme.ImPttCompose"
+        tools:ignore="UnusedAttribute"
+        tools:targetApi="n">
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -20,6 +69,44 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.imptt.v2.compose.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true"
+            tools:replace="name,authorities,exported,grantUriPermissions">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths_public" />
+        </provider>
+        <receiver android:name=".receiver.BootCompleteReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.kylindev.pttlib.utils.AutoRestartServiceReceiver">
+            <intent-filter>
+                <action android:name="com.kylindev.pttlib.auto_restart_service" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name="com.kylindev.pttlib.utils.MediaButtonIntentReceiver"
+            android:enabled="true"
+            android:priority="10000">
+            <intent-filter>
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver> <!-- ptt功能主服务 -->
+        <service
+            android:name="com.kylindev.pttlib.service.InterpttService"
+            android:exported="true">
+        </service>
+        <service
+            android:name=".service.TalkieMicService"
+            android:enabled="true"
+            android:exported="true"
+            >
+        </service>
     </application>
 
 </manifest>

@@ -1,5 +1,6 @@
 package com.imptt.v2.ui.pages
 
+import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview

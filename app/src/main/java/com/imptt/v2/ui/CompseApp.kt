@@ -1,6 +1,7 @@
 package com.imptt.v2.ui
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,7 +22,7 @@ fun ComposeApp(){
     ImPttComposeTheme {
         NavHost(
             navController = navController,
-            startDestination = DASHBOARD
+            startDestination = LOGIN
         ) {
             composable(LOGIN) {
                 LoginPage()
